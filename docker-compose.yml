@@ -1,0 +1,22 @@
+version: '2'
+
+  web:
+    image: huginn/huginn-single-process
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    extra_hosts:
+      - postgres.whyservices.net:10.0.0.154
+
+  threaded:
+    image: huginn/huginn-single-process
+    command: /scripts/init bin/threaded.rb
+    restart: always
+    env_file:
+      - .env
+    extra_hosts:
+      - postgres.whyservices.net:10.0.0.154
+    depends_on:
+      - web
